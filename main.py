@@ -18,8 +18,20 @@ def check_availability_extra():
 
     if available in availability:
         send_mail_extra()
-    if not_available in availability:
+        break
+        
+    elif not_available in availability:
+        for i in range(7):
+            sys.stdout.write("   ")
+            x = i % 4
+            sys.stdout.write('\r' + "." * x)
+            time.sleep(0.5)
+            sys.stdout.flush()
         check_availability_jarir()
+        break
+    else:
+        print("There is something wrong check the script")
+        
 
 def check_availability_jarir():
     page = requests.get(URL2, headers=headers)
@@ -32,14 +44,19 @@ def check_availability_jarir():
 
     if available in availability:
         send_mail_jarir()
-    if not_available in availability:
+        break
+    elif not_available in availability:
         for i in range(7):
             sys.stdout.write("   ")
             x = i % 4
             sys.stdout.write('\r' + "." * x)
             time.sleep(0.5)
             sys.stdout.flush()
-    check_availability_extra()
+        check_availability_extra()
+    break
+    
+    else:
+        print("There is something wrong check the script")
 
 
 def send_mail_extra():
