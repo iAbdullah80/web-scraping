@@ -1,2 +1,1 @@
-# 6020-Tdawal
-The first script 
+# Searching for an iPhone 12
