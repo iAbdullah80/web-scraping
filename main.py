@@ -5,7 +5,9 @@ import time, sys
 
 URl = 'https://www.extra.com/en-sa/mobiles-tablets/mobiles/smartphone/apple-iphone-12-pro-5g-128gb-pacific-blue/p/100203659'
 URL2 = 'https://www.jarir.com/sa-en/catalog/product/view/id/297650/category/1785/'
-headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
+headers = {
+    "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
+
 
 def check_availability_extra():
     page = requests.get(URl, headers=headers)
@@ -18,8 +20,8 @@ def check_availability_extra():
 
     if available in availability:
         send_mail_extra()
-        break
-        
+
+
     elif not_available in availability:
         for i in range(7):
             sys.stdout.write("   ")
@@ -28,23 +30,23 @@ def check_availability_extra():
             time.sleep(0.5)
             sys.stdout.flush()
         check_availability_jarir()
-        break
+
     else:
         print("There is something wrong check the script")
-        
+
 
 def check_availability_jarir():
     page = requests.get(URL2, headers=headers)
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    price = soup.find('div', {"class":"add-to-cart__button"}).get_text()
+    price = soup.find('div', {"class": "add-to-cart__button"}).get_text()
     availability = price.strip()[:20]
     not_available = "Not Available Online"
     available = "Add to Cart"
 
     if available in availability:
         send_mail_jarir()
-        break
+
     elif not_available in availability:
         for i in range(7):
             sys.stdout.write("   ")
@@ -53,8 +55,7 @@ def check_availability_jarir():
             time.sleep(0.5)
             sys.stdout.flush()
         check_availability_extra()
-    break
-    
+
     else:
         print("There is something wrong check the script")
 
@@ -71,11 +72,12 @@ def send_mail_extra():
     msg = f"Subject: {subject}\n\n{body}"
     server.sendmail(
         'thy5abdullah@gmail.com',
-        ['thyabdullah@gmail.com','azaoi1000@gmail.com'],
+        ['thyabdullah@gmail.com'],
         msg
     )
     print("HEY EXTRA STORE EMAIL HAS BEEN SENT!")
     server.quit()
+
 
 def send_mail_jarir():
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -89,9 +91,11 @@ def send_mail_jarir():
     msg = f"Subject: {subject}\n\n{body}"
     server.sendmail(
         'thy5abdullah@gmail.com',
-        ['thyabdullah@gmail.com','azaoi1000@gmail.com'],
+        ['thyabdullah@gmail.com'],
         msg
     )
     print("HEY JARIR EMAIL HAS BEEN SENT!")
     server.quit()
+
+
 check_availability_extra()
